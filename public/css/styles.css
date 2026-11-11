@@ -283,6 +283,26 @@ body {
   color: var(--color-text-muted);
 }
 
+.panel-header-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+.filter-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  width: auto;
+  min-width: 160px;
+  cursor: pointer;
+}
+
 /* Form */
 .product-form {
   display: flex;

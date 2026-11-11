@@ -7,6 +7,7 @@ Aplicación web de gestión de inventario para pequeños negocios. Construida co
 - **Dashboard responsive**: resumen en tiempo real de total de productos, unidades disponibles, categorías registradas e indicador de **inventario bajo**.
 - **Control de stock mínimo y alertas visuales**: cada producto define su `stockMinimo` configurable y muestra su estado (`Normal`, `Stock bajo` cuando `cantidad <= stockMinimo` o `Agotado` cuando `cantidad === 0`) mediante texto, icono y color accesible.
 - **Listado de productos**: tabla accesible con nombre, categoría, cantidad disponible, stock mínimo, estado y botones de acción rápida (**Vender −1** y **Reponer +5**) para ajustar existencias al instante sin permitir stock negativo.
+- **Filtro de agotados**: selector **Todos** / **Solo agotados** en el listado para ver únicamente los productos con cantidad igual a cero. Se actualiza al vender o reponer y no modifica los datos almacenados.
 - **Registro de productos**: formulario con validación de campos (incluyendo stock mínimo con valor sugerido de 5) y sugerencias dinámicas de categorías (`<datalist>`).
 - **Datos de ejemplo**: carga automática de 4 productos iniciales en el primer uso cubriendo los distintos estados de stock.
 - **Persistencia local y compatibilidad**: almacenamiento en `localStorage` bajo la clave `stockpilot:products:v1`, asignando automáticamente `stockMinimo = 5` a productos guardados en la Fase 1.
@@ -47,6 +48,7 @@ StockPilot/
 │     ├─ main.js
 │     ├─ data/seed-products.js
 │     ├─ models/product.js
+│     ├─ models/product-filter.js
 │     ├─ models/stock-status.js
 │     ├─ storage/product-storage.js
 │     ├─ services/inventory-service.js
@@ -55,6 +57,7 @@ StockPilot/
 │        └─ product-form.js
 └─ tests/
    ├─ product.test.js
+   ├─ product-filter.test.js
    ├─ stock-status.test.js
    ├─ product-storage.test.js
    ├─ inventory-service.test.js

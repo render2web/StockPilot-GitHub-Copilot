@@ -7,6 +7,12 @@ import {
   renderStorageWarning
 } from './ui/render.js';
 import { initProductForm } from './ui/product-form.js';
+import {
+  PRODUCT_FILTERS,
+  filterProducts,
+  getEmptyStateMessage,
+  normalizeProductFilter
+} from './models/product-filter.js';
 
 function getSafeLocalStorage() {
   try {
@@ -31,12 +37,18 @@ function bootstrap() {
     table: {
       tableBody: document.getElementById('product-table-body'),
       tableContainer: document.getElementById('table-container'),
-      emptyState: document.getElementById('empty-state')
+      emptyState: document.getElementById('empty-state'),
+      emptyStateTitle: document.getElementById('empty-state-title'),
+      emptyStateText: document.getElementById('empty-state-text')
     },
+    filter: document.getElementById('product-filter'),
     datalist: document.getElementById('category-suggestions'),
     warningBanner: document.getElementById('storage-warning'),
     form: document.getElementById('product-form')
   };
+
+  // El filtro es solo estado de vista: no se persiste ni altera el inventario.
+  let activeFilter = PRODUCT_FILTERS.ALL;
 
   function handleRestock(productId) {
     const result = service.restock(productId, 5);
@@ -58,12 +70,21 @@ function bootstrap() {
     const categories = service.getCategories();
 
     renderStats(uiElements.stats, stats);
-    renderProductsTable(uiElements.table, products, {
+    renderProductsTable(uiElements.table, filterProducts(products, activeFilter), {
       onRestock: handleRestock,
-      onSell: handleSell
+      onSell: handleSell,
+      emptyMessage: getEmptyStateMessage(activeFilter, products.length)
     });
     renderCategorySuggestions(uiElements.datalist, categories);
     renderStorageWarning(uiElements.warningBanner, warningMessage);
+  }
+
+  if (uiElements.filter) {
+    uiElements.filter.value = activeFilter;
+    uiElements.filter.addEventListener('change', () => {
+      activeFilter = normalizeProductFilter(uiElements.filter.value);
+      refreshUI();
+    });
   }
 
   const initResult = service.init();

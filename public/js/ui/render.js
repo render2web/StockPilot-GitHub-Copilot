@@ -25,8 +25,8 @@ export function renderStats(elements, stats) {
   }
 }
 
-export function renderProductsTable(elements, products, { onRestock, onSell } = {}) {
-  const { tableBody, tableContainer, emptyState } = elements;
+export function renderProductsTable(elements, products, { onRestock, onSell, emptyMessage } = {}) {
+  const { tableBody, tableContainer, emptyState, emptyStateTitle, emptyStateText } = elements;
   if (!tableBody) {
     return;
   }
@@ -36,6 +36,12 @@ export function renderProductsTable(elements, products, { onRestock, onSell } = 
   if (!Array.isArray(products) || products.length === 0) {
     if (tableContainer) {
       tableContainer.hidden = true;
+    }
+    if (emptyMessage && emptyStateTitle) {
+      emptyStateTitle.textContent = emptyMessage.title;
+    }
+    if (emptyMessage && emptyStateText) {
+      emptyStateText.textContent = emptyMessage.text;
     }
     if (emptyState) {
       emptyState.hidden = false;
