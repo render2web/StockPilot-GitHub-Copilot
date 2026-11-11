@@ -1,0 +1,13 @@
+{
+  "name": "stockpilot",
+  "version": "1.0.0",
+  "description": "Aplicación web de gestión de inventario para pequeños negocios",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

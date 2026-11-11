@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StockPilot — Panel de gestión de inventario para pequeños negocios">
+  <title>StockPilot — Gestión de Inventario</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <header class="app-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </span>
+        <div>
+          <h1 class="brand-title">StockPilot</h1>
+          <p class="brand-subtitle">Control de inventario para pequeños negocios</p>
+        </div>
+      </div>
+      <div class="header-badge" aria-label="Estado de almacenamiento">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Inventario local activo</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container main-content">
+    <div id="storage-warning" class="alert-banner alert-warning" role="status" aria-live="polite" hidden></div>
+
+    <section aria-labelledby="summary-heading" class="summary-section">
+      <h2 id="summary-heading" class="visually-hidden">Resumen del inventario</h2>
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Total de productos</span>
+            <span class="stat-icon" aria-hidden="true">📦</span>
+          </div>
+          <p id="stat-total-products" class="stat-value">0</p>
+          <p class="stat-caption">Referencias registradas en catálogo</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Unidades totales</span>
+            <span class="stat-icon" aria-hidden="true">📊</span>
+          </div>
+          <p id="stat-total-units" class="stat-value">0</p>
+          <p class="stat-caption">Existencias acumuladas en almacén</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Categorías</span>
+            <span class="stat-icon" aria-hidden="true">🏷️</span>
+          </div>
+          <p id="stat-total-categories" class="stat-value">0</p>
+          <p class="stat-caption">Clasificaciones activas de productos</p>
+        </article>
+
+        <article id="stat-card-low-stock" class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Inventario bajo</span>
+            <span class="stat-icon" aria-hidden="true">⚠️</span>
+          </div>
+          <p id="stat-low-stock" class="stat-value">0</p>
+          <p class="stat-caption">Productos en mínimo, bajo mínimo o agotados</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="workspace-grid">
+      <section aria-labelledby="form-heading" class="panel form-panel">
+        <div class="panel-header">
+          <h2 id="form-heading" class="panel-title">Registrar producto</h2>
+          <p class="panel-description">Completa los datos para incorporar una referencia al inventario.</p>
+        </div>
+
+        <form id="product-form" class="product-form" novalidate>
+          <div class="form-field">
+            <label for="product-name" class="form-label">
+              Nombre del producto <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="product-name"
+              name="name"
+              class="form-input"
+              placeholder="Ej. Cuaderno A5"
+              autocomplete="off"
+              required
+              aria-describedby="error-name"
+            >
+            <p id="error-name" class="field-error" role="alert" aria-live="assertive" hidden></p>
+          </div>
+
+          <div class="form-field">
+            <label for="product-category" class="form-label">
+              Categoría <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="product-category"
+              name="category"
+              class="form-input"
+              placeholder="Ej. Papelería"
+              list="category-suggestions"
+              autocomplete="off"
+              required
+              aria-describedby="error-category"
+            >
+            <datalist id="category-suggestions"></datalist>
+            <p id="error-category" class="field-error" role="alert" aria-live="assertive" hidden></p>
+          </div>
+
+          <div class="form-field">
+            <label for="product-quantity" class="form-label">
+              Cantidad disponible <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="product-quantity"
+              name="quantity"
+              class="form-input"
+              placeholder="0"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              required
+              aria-describedby="error-quantity"
+            >
+            <p id="error-quantity" class="field-error" role="alert" aria-live="assertive" hidden></p>
+          </div>
+
+          <div class="form-field">
+            <label for="product-stock-minimo" class="form-label">
+              Stock mínimo <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="number"
+              id="product-stock-minimo"
+              name="stockMinimo"
+              class="form-input"
+              placeholder="5"
+              value="5"
+              min="0"
+              step="1"
+              inputmode="numeric"
+              required
+              aria-describedby="error-stock-minimo"
+            >
+            <p id="error-stock-minimo" class="field-error" role="alert" aria-live="assertive" hidden></p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              Agregar al inventario
+            </button>
+          </div>
+
+          <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
+        </form>
+      </section>
+
+      <section aria-labelledby="inventory-heading" class="panel table-panel">
+        <div class="panel-header panel-header-inline">
+          <div>
+            <h2 id="inventory-heading" class="panel-title">Listado de productos</h2>
+            <p class="panel-description">Existencias actuales organizadas por referencia y categoría.</p>
+          </div>
+        </div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <p class="empty-state-title">No hay productos registrados</p>
+          <p class="empty-state-text">Utiliza el formulario para agregar el primer producto al inventario.</p>
+        </div>
+
+        <div id="table-container" class="table-responsive">
+          <table class="inventory-table">
+            <caption class="visually-hidden">
+              Tabla de inventario de productos con nombre, categoría, cantidad disponible, stock mínimo, estado y acciones
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Categoría</th>
+                <th scope="col" class="col-numeric">Cantidad disponible</th>
+                <th scope="col" class="col-numeric">Stock mínimo</th>
+                <th scope="col">Estado</th>
+                <th scope="col" class="col-actions">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <p>StockPilot &mdash; Gestión ágil de inventario local</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
