@@ -175,14 +175,22 @@
             <h2 id="inventory-heading" class="panel-title">Listado de productos</h2>
             <p class="panel-description">Existencias actuales organizadas por referencia y categoría.</p>
           </div>
-          <div class="filter-field">
-            <label for="product-filter" class="form-label">Mostrar</label>
-            <select id="product-filter" name="productFilter" class="form-input filter-select" aria-controls="product-table-body">
-              <option value="all" selected>Todos</option>
-              <option value="out-of-stock">Solo agotados</option>
-            </select>
+          <div class="inventory-actions">
+            <div class="filter-field">
+              <label for="product-filter" class="form-label">Mostrar</label>
+              <select id="product-filter" name="productFilter" class="form-input filter-select" aria-controls="product-table-body">
+                <option value="all" selected>Todos</option>
+                <option value="out-of-stock">Solo agotados</option>
+              </select>
+            </div>
+            <div class="inventory-export">
+              <button id="export-csv" type="button" class="btn-primary btn-export" aria-describedby="export-description">Exportar CSV</button>
+              <p id="export-description" class="panel-description">Incluye todos los productos, sin aplicar filtros.</p>
+            </div>
           </div>
         </div>
+
+        <p id="export-status" class="alert-banner alert-warning" role="alert" hidden></p>
 
         <div id="empty-state" class="empty-state" role="status" aria-live="polite" hidden>
           <p id="empty-state-title" class="empty-state-title">No hay productos registrados</p>

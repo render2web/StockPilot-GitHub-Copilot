@@ -297,6 +297,18 @@ body {
   gap: 8px;
 }
 
+.inventory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 16px;
+}
+
+.inventory-export {
+  display: grid;
+  gap: 6px;
+}
+
 .filter-select {
   width: auto;
   min-width: 160px;
@@ -380,6 +392,11 @@ body {
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
+}
+
+.btn-export {
+  width: auto;
+  justify-self: start;
 }
 
 .btn-primary:focus-visible {

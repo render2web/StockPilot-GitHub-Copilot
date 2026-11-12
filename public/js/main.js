@@ -7,6 +7,7 @@ import {
   renderStorageWarning
 } from './ui/render.js';
 import { initProductForm } from './ui/product-form.js';
+import { initInventoryExport } from './ui/inventory-export.js';
 import {
   PRODUCT_FILTERS,
   filterProducts,
@@ -42,6 +43,8 @@ function bootstrap() {
       emptyStateText: document.getElementById('empty-state-text')
     },
     filter: document.getElementById('product-filter'),
+    exportButton: document.getElementById('export-csv'),
+    exportStatus: document.getElementById('export-status'),
     datalist: document.getElementById('category-suggestions'),
     warningBanner: document.getElementById('storage-warning'),
     form: document.getElementById('product-form')
@@ -89,6 +92,14 @@ function bootstrap() {
 
   const initResult = service.init();
   refreshUI(initResult.warning);
+
+  if (uiElements.exportButton) {
+    initInventoryExport({
+      button: uiElements.exportButton,
+      statusElement: uiElements.exportStatus,
+      getProducts: () => service.list()
+    });
+  }
 
   if (uiElements.form) {
     initProductForm({
